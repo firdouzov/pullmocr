@@ -4,11 +4,10 @@ from werkzeug.utils import secure_filename
 import pytesseract
 from PIL import Image
 
-
  
 #*** Backend operation
  
-pytesseract.pytesseract.tesseract_cmd='/Pytesseract-OCR./tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd='/Pytesseract-OCR/tesseract.exe'
 # WSGI Application
 # Defining upload folder path
 UPLOAD_FOLDER = os.path.join('staticFiles', 'uploads')
@@ -91,9 +90,8 @@ def displayImage():
 if __name__ == "__main__":
     import random, threading, webbrowser
 
-    
     port = 5000 + random.randint(0, 999)
-    url = "0.0.0.0:{0}".format(port)
+    url = "http://127.0.0.1:{0}".format(port)
 
     threading.Timer(1.25, lambda: webbrowser.open(url) ).start()
 
