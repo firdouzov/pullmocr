@@ -88,4 +88,10 @@ def displayImage():
 
 
 if __name__ == "__main__":
-    app.run(debug=False,host='0.0.0.0')
+    import random, threading, webbrowser
+
+    port = 8000
+    url = "http://0000.0.0.0:{0}".format(port)
+
+    threading.Timer(1.25, lambda: webbrowser.open(url) ).start()
+    app.run(port=port, debug=False)
