@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 import pytesseract
 from PIL import Image
 
+
  
 #*** Backend operation
  
@@ -88,4 +89,13 @@ def displayImage():
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    import random, threading, webbrowser
+
+    
+    port = 5000 + random.randint(0, 999)
+    url = "0.0.0.0:{0}".format(port)
+
+    threading.Timer(1.25, lambda: webbrowser.open(url) ).start()
+
+
+    app.run(port=port, debug=False)
