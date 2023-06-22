@@ -2,11 +2,12 @@ from flask import Flask, render_template, request, session
 import os
 from werkzeug.utils import secure_filename
 import pytesseract
-import cv2
+from PIL import Image
 
  
 #*** Backend operation
  
+pytesseract.pytesseract.tesseract_cmd='C:\\Program Files\\Pytesseract-OCR\\tesseract.exe'
 # WSGI Application
 # Defining upload folder path
 UPLOAD_FOLDER = os.path.join('staticFiles', 'uploads')
@@ -47,9 +48,10 @@ def displayImage():
     # Retrieving uploaded file path from session
     img_file_path = session.get('uploaded_img_file_path', None)
     # Display image in Flask application web page
-    txt=pytesseract.image_to_string(cv2.imread(img_file_path),lang="aze")
-    txtprod=pytesseract.image_to_string(cv2.imread(img_file_path)[300:-640,:185])
-    txtquant=pytesseract.image_to_string(cv2.imread(img_file_path)[:,185:],lang="aze")
+    txt=pytesseract.image_to_string(Image.open(img_file_path),lang="aze")
+    width,height=Image.open(img_file_path).size
+    txtprod=pytesseract.image_to_string(Image.open(img_file_path).crop((0,300,width,height-640)))
+    txtquant=pytesseract.image_to_string(Image.open(img_file_path).crop((185,0,width,height)),lang="aze")
     tot=[]
     start=0
     end=0
