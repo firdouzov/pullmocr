@@ -7,7 +7,7 @@ from PIL import Image
  
 #*** Backend operation
  
-pytesseract.pytesseract.tesseract_cmd='/usr/bin/tesseract'
+pytesseract.pytesseract.tesseract_cmd='/bin/tesseract'
 
 # WSGI Application
 # Defining upload folder path
