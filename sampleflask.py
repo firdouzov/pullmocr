@@ -7,7 +7,7 @@ from PIL import Image
  
 #*** Backend operation
  
-pytesseract.pytesseract.tesseract_cmd='/Pytesseract-OCR/tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd='Pytesseract-OCR/tesseract.exe'
 # WSGI Application
 # Defining upload folder path
 UPLOAD_FOLDER = os.path.join('staticFiles', 'uploads')
@@ -33,25 +33,20 @@ def index():
 def uploadFile():
     if request.method == 'POST':
         # Upload file flask
-        uploaded_img = request.files['uploaded-file']
-        # Extracting uploaded data file name
-        img_filename = secure_filename(uploaded_img.filename)
-        # Upload file to database (defined uploaded folder in static path)
-        uploaded_img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
-        # Storing uploaded file path in flask session
-        session['uploaded_img_file_path'] = os.path.join(app.config['UPLOAD_FOLDER'], img_filename)
+        uploaded_img = request.files.get('uploaded-file')
+        global txt
+        global txtprod
+        global txtquant
+        img = Image.open(uploaded_img)
+        txt=pytesseract.image_to_string(img,lang="aze")
+        width,height=img.size
+        txtprod=pytesseract.image_to_string(img.crop((0,300,width,height-640)))
+        txtquant=pytesseract.image_to_string(img.crop((185,0,width,height)),lang="aze")
  
         return render_template('home1.html')
  
 @app.route('/show_image')
 def displayImage():
-    # Retrieving uploaded file path from session
-    img_file_path = session.get('uploaded_img_file_path', None)
-    # Display image in Flask application web page
-    txt=pytesseract.image_to_string(Image.open(img_file_path),lang="aze")
-    width,height=Image.open(img_file_path).size
-    txtprod=pytesseract.image_to_string(Image.open(img_file_path).crop((0,300,width,height-640)))
-    txtquant=pytesseract.image_to_string(Image.open(img_file_path).crop((185,0,width,height)),lang="aze")
     tot=[]
     start=0
     end=0
@@ -85,6 +80,7 @@ def displayImage():
     dictionary1
     
     return render_template('show_image.html', user_image = dictionary1)
+
 
 
 if __name__ == "__main__":
