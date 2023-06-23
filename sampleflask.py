@@ -7,7 +7,7 @@ from PIL import Image
  
 #*** Backend operation
  
-pytesseract.pytesseract.tesseract_cmd='Pytesseract-OCR/tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd=‘/app/.apt/usr/bin/tesseract’ 
 # WSGI Application
 # Defining upload folder path
 UPLOAD_FOLDER = os.path.join('staticFiles', 'uploads')
